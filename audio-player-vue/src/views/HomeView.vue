@@ -3,7 +3,7 @@
     <select v-model="selectedAlbum" @change="updateAlbumPath" class="album-select">
       <option v-for="album in albums" :key="album" :value="album">{{ album }}</option>
     </select>
-    <AudioPlayer :albumPath="albumPath" :tracks="albumTracks"/>
+    <AudioPlayer :albumPath="albumPath" :tracks="albumTracks" :art="albumArt"/>
   </div>
 </template>
 <script>
@@ -19,7 +19,8 @@ export default {
       albums: [],
       selectedAlbum: '',
       albumPath: null,
-      albumTracks: []
+      albumTracks: [],
+      albumArt: null
     }
   },
   created() {
@@ -30,8 +31,9 @@ export default {
       this.albums = Albums.albums.map(album => album.name);
     },
     updateAlbumPath() {
-      this.albumPath = `/audio/${this.selectedAlbum}`;
+      this.albumPath = `audio/${this.selectedAlbum}`;
       this.albumTracks = Albums.albums.find(album => album.name === this.selectedAlbum).tracks;
+      this.albumArt = this.albumPath + "/" + Albums.albums.find(album => album.name === this.selectedAlbum).art;
     }
   }
 }
